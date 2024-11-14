@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Empresas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1, h2 {
+            color: #2a3b5f;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        label {
+            font-size: 0.9em;
+            text-align: left;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.2s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #2a3b5f;
+            outline: none;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #2a3b5f;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #3f4e70;
+        }
+        .empresa-lista {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+        .empresa-item {
+            padding: 15px;
+            border-bottom: 1px solid #e0e4e8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        .empresa-item:last-child {
+            border-bottom: none;
+        }
+        .empresa-item:hover {
+            background-color: #f9fafc;
+        }
+        .empresa-nome {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .empresa-endereco {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .delete-button {
+            background-color: #d9534f;
+            color: #fff;
+            padding: 8px 12px;
+            font-size: 0.9em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .delete-button:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Empresas</h1>
+        
+        <form method="post">
+            {% csrf_token %}
+            <label for="nome">Nome da Empresa:</label>
+            <input type="text" name="nome" required>
+            <label for="endereco">Endereço:</label>
+            <input type="text" name="endereco" required>
+            <button type="submit">Adicionar Empresa</button>
+        </form>
+
+        <h2>Lista de Empresas</h2>
+        <ul class="empresa-lista">
+            {% for empresa in empresas %}
+                <li class="empresa-item">
+                    <div>
+                        <span class="empresa-nome">{{ empresa.nome }}</span> - 
+                        <span class="empresa-endereco">{{ empresa.endereco }}</span>
+                    </div>
+                    <form method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="empresa_id" value="{{ empresa.id }}">
+                        <button type="submit" class="delete-button">Excluir</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Funcionário</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .form-container {
+            max-width: 400px;
+            width: 100%;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: #333;
+            margin-top: 1rem;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Registrar Funcionário</h1>
+        <form method="post">
+            {% csrf_token %}
+            
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+            
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" id="senha" required>
+            
+            <label for="empresa_id">Empresa:</label>
+            <select name="empresa_id" id="empresa_id" required>
+                {% for empresa in empresas %}
+                    <option value="{{ empresa.id }}">{{ empresa.nome }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="nivel_acesso">Nível de Acesso:</label>
+            <select name="nivel_acesso" id="nivel_acesso">
+                <option value="comum">Comum</option>
+                <option value="admin">Administrador</option>
+            </select>
+            
+            <button type="submit">Registrar</button>
+        </form>
+        <a href="{% url 'login_funcionario' %}" class="login-link">Já possui uma conta? Login</a>
+    </div>
+</body>
+</html>

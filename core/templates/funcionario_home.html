@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Bem-vindo, Funcionário</title>
+</head>
+<body>
+    <h1>Bem-vindo, {{ funcionario.nome }}!</h1>
+    <p>Empresa: {{ funcionario.empresa.nome }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <label for="entrada">Hora de Entrada:</label>
+        <input type="time" name="entrada" required>
+        
+        <label for="saida">Hora de Saída:</label>
+        <input type="time" name="saida">
+
+        <button type="submit">Registrar Ponto</button>
+    </form>
+    <a href="{% url 'consulta_ponto' %}">Ver Histórico de Pontos</a> | 
+    <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'login_funcionario' %}" class="button">Login</a> <!-- Nome corrigido -->
+
+</body>
+</html>

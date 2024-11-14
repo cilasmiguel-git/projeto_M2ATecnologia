@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Administração - Funcionários</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7fa; margin: 0; padding: 0; }
+        .container { max-width: 800px; margin: 20px auto; padding: 20px; background-color: #ffffff; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); }
+        h1, h2 { color: #333; text-align: center; }
+        form { display: flex; flex-direction: column; margin-bottom: 20px; }
+        label { font-weight: bold; margin-top: 10px; }
+        input, select, button { padding: 10px; font-size: 16px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background-color: #007bff; color: white; cursor: pointer; transition: background-color 0.3s; }
+        button:hover { background-color: #0056b3; }
+        .funcionarios-list { list-style: none; padding: 0; }
+        .funcionarios-list li { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; }
+        .delete-button { background-color: #dc3545; border: none; color: white; cursor: pointer; padding: 8px 12px; border-radius: 4px; transition: background-color 0.3s; }
+        .delete-button:hover { background-color: #c82333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Administração de Funcionários</h1>
+
+        <h2>Adicionar Funcionário</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" required>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
+            
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" required>
+
+            <label for="empresa">Empresa:</label>
+            <select name="empresa" required>
+                {% if empresas %}
+                    {% for empresa in empresas %}
+                        <option value="{{ empresa.id }}">{{ empresa.nome }}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="" disabled>Nenhuma empresa cadastrada</option>
+                {% endif %}
+            </select>
+
+            <label for="nivel_acesso">Nível de Acesso:</label>
+            <select name="nivel_acesso" required>
+                <option value="comum">Comum</option>
+                <option value="admin">Administrador</option>
+            </select>
+
+            <button type="submit">Adicionar Funcionário</button>
+        </form>
+
+        <h2>Lista de Funcionários</h2>
+        <ul class="funcionarios-list">
+            {% for funcionario in funcionarios %}
+                <li>
+                    <span>{{ funcionario.nome }} - {{ funcionario.email }} - {{ funcionario.empresa.nome }} - {{ funcionario.nivel_acesso }}</span>
+                    <form method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="funcionario_id" value="{{ funcionario.id }}">
+                        <button type="submit" class="delete-button">Excluir</button>
+                    </form>                    
+                </li>
+            {% endfor %}
+        </ul>
+        
+    </div>
+</body>
+</html>

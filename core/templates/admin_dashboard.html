@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Administrativo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #2a3b5f;
+            margin-bottom: 20px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #2a3b5f;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .menu a:hover {
+            background-color: #3f4e70;
+        }
+
+        .menu a.logout {
+            background-color: #d9534f;
+        }
+
+        .menu a.logout:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Painel Administrativo</h1>
+        <div class="menu">
+            <a href="{% url 'admin_empresas' %}">Gerenciar Empresas</a>
+            <a href="{% url 'admin_funcionarios' %}">Gerenciar Funcionários</a>
+            <a href="{% url 'admin_pontos' %}">Ver Pontos</a>
+            <a href="{% url 'logout' %}" class="logout">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

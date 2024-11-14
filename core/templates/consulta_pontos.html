@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Histórico de Pontos</title>
+</head>
+<body>
+    <h1>Histórico de Pontos</h1>
+    <table>
+        <tr>
+            <th>Data</th>
+            <th>Entrada</th>
+            <th>Saída</th>
+            <th>Horas Trabalhadas</th>
+        </tr>
+        {% for ponto in pontos %}
+        <tr>
+            <td>{{ ponto.data }}</td>
+            <td>{{ ponto.entrada }}</td>
+            <td>{{ ponto.saida }}</td>
+            <td>{{ ponto.horas_trabalhadas|floatformat:2 }} horas</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'funcionario_home' %}">Voltar</a> | 
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Administração - Pontos dos Funcionários</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        select, button, input[type="date"] {
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .button {
+            background-color: #dc3545;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Administração de Pontos dos Funcionários</h1>
+        
+        <!-- Formulário para Seleção de Funcionário e Filtro por Data -->
+        <form method="get" action="{% url 'admin_pontos' %}">
+            <label for="funcionario">Selecione um Funcionário:</label>
+            <select name="funcionario_id" id="funcionario" required>
+                <option value="">-- Escolha um Funcionário --</option>
+                {% for funcionario in funcionarios %}
+                    <option value="{{ funcionario.id }}" {% if funcionario.id == request.GET.funcionario_id|default_if_none:'' %}selected{% endif %}>
+                        {{ funcionario.nome }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="data">Data:</label>
+            <input type="date" name="data" id="data" value="{{ request.GET.data|default_if_none:'' }}">
+
+            <button type="submit">Filtrar</button>
+        </form>
+        
+        <!-- Tabela de Pontos -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Entrada</th>
+                    <th>Saída</th>
+                    <th>Horas Trabalhadas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if pontos %}
+                    {% for ponto in pontos %}
+                        <tr>
+                            <td>{{ ponto.data|date:"d/m/Y" }}</td>
+                            <td>{{ ponto.entrada }}</td>
+                            <td>{{ ponto.saida|default:"-" }}</td>
+                            <td>
+                                {% if ponto.saida %}
+                                    {{ ponto.horas_trabalhadas|floatformat:2 }} horas
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">Nenhum ponto encontrado para este funcionário na data selecionada.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        
+        <div class="button-container">
+            <a href="{% url 'admin_dashboard' %}" class="button">Voltar ao Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

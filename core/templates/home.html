@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Página Inicial</title>
+</head>
+<body>
+    <h1>Bem-vindo ao Sistema de Controle de Ponto</h1>
+    <p>Você está logado como {{ request.session.funcionario_id }}</p>
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>
