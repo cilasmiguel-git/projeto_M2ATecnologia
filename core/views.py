@@ -75,6 +75,27 @@ class FuncionarioView(View):
         funcionario = get_object_or_404(Funcionario, id=funcionario_id)
         return render(request, 'funcionario_home.html', {'funcionario': funcionario})
 
+    def post(self, request):
+        funcionario_id = request.session.get('funcionario_id')
+        if not funcionario_id:
+            return redirect('login_funcionario')
+        
+        funcionario = get_object_or_404(Funcionario, id=funcionario_id)
+        
+        # Processa o formulário de registro de ponto
+        entrada = request.POST.get('entrada')
+        saida = request.POST.get('saida')
+        
+        # Criação do objeto de ponto
+        ponto = Ponto(funcionario=funcionario, entrada=entrada, saida=saida)
+        ponto.save()
+        
+        messages.success(request, 'Ponto registrado com sucesso!')
+        
+        # Renderiza a mesma página, permanecendo no "funcionario_home"
+        return render(request, 'funcionario_home.html', {'funcionario': funcionario})
+
+
 class PontoListView(View):
     def get(self, request):
         funcionario_id = request.session.get('funcionario_id')
